@@ -1,0 +1,3 @@
+- [x] Remove unused "bcrypt" dependency from backend/package.json
+- [x] Delete unused frontend/src/App.css
+- [x] Delete unused frontend/src/index.css
