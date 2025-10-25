@@ -44,7 +44,4 @@ It allows users to **sign up, upload, download, and manage files securely**, all
 - Multer (for file uploads)
 - JWT Authentication
 
----
-
-## 📁 Project Structure
 
