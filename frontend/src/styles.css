@@ -328,3 +328,162 @@ input:focus {
     flex-direction: column;
   }
 }
+/* ================================
+   SIGNUP PAGE STYLING
+================================ */
+.signup-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 85vh;
+  padding: 20px;
+}
+
+.signup-card {
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+  padding: 40px 30px;
+  animation: fadeUp 0.4s ease-in-out;
+}
+
+.signup-card h2 {
+  color: var(--accent);
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* Input fields */
+.signup-card input {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 16px;
+  border: 1px solid #dcdcdc;
+  border-radius: var(--radius);
+  font-size: 1em;
+  transition: 0.3s ease;
+}
+
+.signup-card input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Full-width button */
+.full-width {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  font-size: 1em;
+  border-radius: var(--radius);
+}
+
+/* Subtle hover for button */
+.full-width:hover {
+  transform: translateY(-2px);
+}
+
+/* Error message styling */
+.error {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 8px;
+  padding: 8px;
+  margin-top: 15px;
+  font-size: 0.9em;
+}
+/* ================================
+   LOGIN PAGE STYLING
+================================ */
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 85vh;
+  padding: 20px;
+}
+
+.login-card {
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+  padding: 40px 30px;
+  animation: fadeUp 0.4s ease-in-out;
+}
+
+.login-card h2 {
+  color: var(--accent);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.subtext {
+  color: #555;
+  font-size: 0.95em;
+  margin-bottom: 25px;
+}
+
+/* Input fields */
+.login-card input {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 16px;
+  border: 1px solid #dcdcdc;
+  border-radius: var(--radius);
+  font-size: 1em;
+  transition: 0.3s ease;
+}
+
+.login-card input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Button */
+.full-width {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  font-size: 1em;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.full-width:hover {
+  transform: translateY(-2px);
+  background: #4f46e5;
+}
+
+/* Error box */
+.error {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 8px;
+  padding: 8px;
+  margin-top: 15px;
+  font-size: 0.9em;
+}
+
+/* Subtle animation */
+@keyframes fadeUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
