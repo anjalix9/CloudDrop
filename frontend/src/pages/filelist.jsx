@@ -45,15 +45,43 @@ export default function FilesList(){
   };
 
   return (
-    <div>
-      <h2>Your files</h2>
-      {err && <div className="error">{err}</div>}
-      {files.length === 0 && <div>No files yet. Upload something.</div>}
-      <div style={{marginTop:12}}>
-        {files.map(f => (
-          <FileCard key={f._id} file={f} onDownload={handleDownload} onDelete={handleDelete} />
-        ))}
+  <div className="card">
+    <h2>Your files</h2>
+
+    {/* Error message */}
+    {err && <div className="error">{err}</div>}
+
+    {/* Empty state (no files) */}
+    {files.length === 0 && (
+      <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <img
+          src="/assets/images.png"
+          alt="No files yet"
+          style={{
+            width: "220px",
+            opacity: "0.9",
+            marginBottom: "15px",
+            borderRadius: "10px",
+            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+          }}
+        />
+        <div style={{ fontSize: "1.1em", color: "#334155" }}>
+          No files yet. <strong>Upload something.</strong>
+        </div>
       </div>
+    )}
+
+    {/* File list */}
+    <div style={{ marginTop: 20 }}>
+      {files.map((f) => (
+        <FileCard
+          key={f._id}
+          file={f}
+          onDownload={handleDownload}
+          onDelete={handleDelete}
+        />
+      ))}
     </div>
-  );
+  </div>
+);
 }
