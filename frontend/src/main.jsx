@@ -12,6 +12,7 @@ import Login from './pages/login';
 import Signup from './pages/signup';
 import UploadPage from './pages/uploadpage';
 import FilesList from './pages/filelist';
+import Analytics from './pages/analytics';
 import './styles.css';
 
 /* --- Scroll to top on route change --- */
@@ -33,6 +34,7 @@ function PageTitle() {
     else if (pathname === '/signup') title = 'Signup | Clouddrop';
     else if (pathname === '/upload') title = 'Upload File | Clouddrop';
     else if (pathname === '/files') title = 'My Files | Clouddrop';
+    else if (pathname === '/analytics') title = 'Analytics | Clouddrop';
     document.title = title;
   }, [pathname]);
 
@@ -59,6 +61,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="signup" element={<Signup />} />
           <Route path="upload" element={<ProtectedRoute><UploadPage /></ProtectedRoute>} />
           <Route path="files" element={<ProtectedRoute><FilesList /></ProtectedRoute>} />
+          <Route path="analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
         </Route>
       </Routes>
     </BrowserRouter>

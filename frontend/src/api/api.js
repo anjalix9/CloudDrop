@@ -48,4 +48,12 @@ export async function deleteFile(id) {
   return client.delete(`/files/${id}`);
 }
 
+export async function previewFile(id) {
+  return client.get(`/files/preview/${id}`, { responseType: 'blob' });
+}
+
+export async function getStats() {
+  return client.get('/files/stats');
+}
+
 export default client;

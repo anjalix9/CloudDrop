@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { listFiles, downloadFile, deleteFile } from '../api/api';
+import { listFiles, downloadFile, deleteFile, previewFile } from '../api/api';
 import FileCard from '../components/filecard';
 
 export default function FilesList(){
   const [files, setFiles] = useState([]);
   const [err, setErr] = useState('');
+  const [preview, setPreview] = useState({ url: '', text: '', type: '' });
 
   const load = async () => {
     setErr('');
@@ -44,6 +45,41 @@ export default function FilesList(){
     }
   };
 
+  const handlePreview = async (file) => {
+    try {
+      const res = await previewFile(file._id);
+      const mime = file.mimeType || res.data.type || 'application/octet-stream';
+      if (mime.startsWith('text/')) {
+        const textContent = await res.data.text();
+        setPreview({ url: '', text: textContent, type: 'text' });
+      } else {
+        const url = window.URL.createObjectURL(new Blob([res.data], { type: mime }));
+        setPreview({ url, text: '', type: mime });
+      }
+    } catch (e) {
+      try {
+        if (e?.response?.data instanceof Blob) {
+          const text = await e.response.data.text();
+          try {
+            const json = JSON.parse(text);
+            alert('Preview failed: ' + (json.message || e.message));
+          } catch {
+            alert('Preview failed: ' + text);
+          }
+        } else {
+          alert('Preview failed: ' + (e?.response?.data?.message || e.message));
+        }
+      } catch {
+        alert('Preview failed: ' + e.message);
+      }
+    }
+  };
+
+  const closePreview = () => {
+    if (preview.url) window.URL.revokeObjectURL(preview.url);
+    setPreview({ url: '', text: '', type: '' });
+  };
+
   return (
   <div className="card">
     <h2>Your files</h2>
@@ -77,11 +113,38 @@ export default function FilesList(){
         <FileCard
           key={f._id}
           file={f}
+          onPreview={handlePreview}
           onDownload={handleDownload}
           onDelete={handleDelete}
         />
       ))}
     </div>
+
+    {/* Preview Modal */}
+    {preview.type && (
+      <div style={{
+        position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000
+      }} onClick={closePreview}>
+        <div className="card" style={{ width: '90%', maxWidth: 900, maxHeight: '85vh', overflow: 'auto' }} onClick={(e) => e.stopPropagation()}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h3 style={{ margin: 0 }}>Preview</h3>
+            <button className="btn danger" onClick={closePreview}>Close</button>
+          </div>
+          <div style={{ marginTop: 12 }}>
+            {preview.text && (
+              <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{preview.text}</pre>
+            )}
+            {!preview.text && preview.url && preview.type.startsWith('image/') && (
+              <img src={preview.url} alt="Preview" style={{ maxWidth: '100%', maxHeight: '70vh' }} />
+            )}
+            {!preview.text && preview.url && (preview.type === 'application/pdf' || preview.type.startsWith('application/')) && (
+              <iframe src={preview.url} title="Preview" style={{ width: '100%', height: '70vh', border: 0 }} />
+            )}
+          </div>
+        </div>
+      </div>
+    )}
   </div>
 );
 }

@@ -268,6 +268,84 @@ input:focus {
 }
 
 /* ================================
+   PREVIEW MODAL
+================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  width: 90%;
+  max-width: 900px;
+  max-height: 85vh;
+  overflow: auto;
+  padding: 16px;
+}
+
+.modal-content img,
+.modal-content iframe {
+  max-width: 100%;
+  border: 0;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ================================
+   ANALYTICS CARDS/CHARTS
+================================ */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.stat-card {
+  background: #f8fafc;
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.chart-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 140px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 6px;
+  overflow-x: auto;
+}
+
+.chart-labels {
+  display: flex;
+  gap: 8px;
+  font-size: 10px;
+  color: #64748b;
+  margin-top: 6px;
+  overflow-x: auto;
+}
+
+/* ================================
    LOADING SPINNER
 ================================ */
 .spinner {

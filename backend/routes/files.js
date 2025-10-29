@@ -49,6 +49,23 @@ router.get('/download/:id', auth, async (req, res) => {
   }
 });
 
+// inline preview by id
+router.get('/preview/:id', auth, async (req, res) => {
+  try {
+    const file = await FileMeta.findById(req.params.id);
+    if (!file) return res.status(404).json({ message: 'File not found' });
+    if (!file.owner.equals(req.user._id)) return res.status(403).json({ message: 'Forbidden' });
+    const fullPath = path.join(process.env.UPLOAD_DIR || 'uploads', file.storedName);
+    if (!fs.existsSync(fullPath)) return res.status(404).json({ message: 'File missing on server' });
+    res.setHeader('Content-Type', file.mimeType || 'application/octet-stream');
+    res.setHeader('Content-Disposition', `inline; filename="${encodeURIComponent(file.originalName)}"`);
+    const stream = fs.createReadStream(fullPath);
+    stream.pipe(res);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+});
+
 // delete file by id
 router.delete('/:id', auth, async (req, res) => {
   try {
@@ -65,3 +82,36 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 module.exports = router;
+ 
+// user stats: total files, total size, uploads by day (last 30)
+router.get('/stats', auth, async (req, res) => {
+  try {
+    const owner = req.user._id;
+
+    const [totals] = await FileMeta.aggregate([
+      { $match: { owner } },
+      { $group: { _id: null, totalFiles: { $sum: 1 }, totalBytes: { $sum: '$size' } } }
+    ]);
+
+    const since = new Date();
+    since.setDate(since.getDate() - 29);
+
+    const daily = await FileMeta.aggregate([
+      { $match: { owner, createdAt: { $gte: since } } },
+      { $group: {
+          _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+          count: { $sum: 1 },
+          bytes: { $sum: '$size' }
+      }},
+      { $sort: { _id: 1 } }
+    ]);
+
+    res.json({
+      totalFiles: totals?.totalFiles || 0,
+      totalBytes: totals?.totalBytes || 0,
+      daily
+    });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+});
