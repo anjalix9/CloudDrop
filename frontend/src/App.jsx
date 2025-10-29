@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Navbar from './components/Navbar'; // capitalized filename for convention
+import Navbar from './components/navbar'; // capitalized filename for convention
 import './styles.css'; // global styles
 
 export default function App() {
