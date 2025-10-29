@@ -33,6 +33,7 @@ export default function Navbar() {
         {token ? (
           <>
             <span style={{ marginRight: 16, fontWeight: "500" }}>Hi, {name}</span>
+            <Link to="/files" className="btn" style={{ marginRight: 8 }}>My Files</Link>
             <Link to="/upload" className="btn">Upload</Link>
             <button onClick={logout} className="btn danger" style={{ marginLeft: 8 }}>
               Logout

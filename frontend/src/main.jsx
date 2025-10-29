@@ -39,6 +39,13 @@ function PageTitle() {
   return null;
 }
 
+/* --- Simple auth guard --- */
+function ProtectedRoute({ children }) {
+  const token = localStorage.getItem('token');
+  if (!token) return <Navigate to="/login" replace />;
+  return children;
+}
+
 /* --- Main Render --- */
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -50,8 +57,8 @@ createRoot(document.getElementById('root')).render(
           <Route index element={<Navigate to="/files" replace />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
-          <Route path="upload" element={<UploadPage />} />
-          <Route path="files" element={<FilesList />} />
+          <Route path="upload" element={<ProtectedRoute><UploadPage /></ProtectedRoute>} />
+          <Route path="files" element={<ProtectedRoute><FilesList /></ProtectedRoute>} />
         </Route>
       </Routes>
     </BrowserRouter>
