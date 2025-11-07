@@ -5,6 +5,7 @@ const fileMetaSchema = new mongoose.Schema({
   storedName: { type: String, required: true },
   mimeType: { type: String },
   size: { type: Number },
+  folder: { type: String, default: '' },
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
 }, { timestamps: true });
 

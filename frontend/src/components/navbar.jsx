@@ -13,40 +13,41 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="nav">
-      <div className="nav-left" style={{ display: "flex", alignItems: "center" }}>
-        {/* Optional: Logo beside brand name */}
-        <img
-          src="/assets/images.png"
-          alt="CloudDrop Logo"
-          style={{
-            height: "32px",
-            marginRight: "10px",
-            borderRadius: "6px",
-            boxShadow: "0 2px 8px rgba(99, 102, 241, 0.2)",
-          }}
-        />
-        <Link to="/files" className="brand">Clouddrop</Link>
+    <header className="top-header">
+      <div className="header-left">
+        <div className="header-brand">
+          <img
+            src="/assets/images.png"
+            alt="CloudDrop"
+            className="header-logo"
+          />
+          <span className="header-title">CloudDrop File Manager</span>
+        </div>
       </div>
 
-      <div className="nav-right" style={{ display: "flex", alignItems: "center" }}>
+      <div className="header-right">
         {token ? (
           <>
-            <span style={{ marginRight: 16, fontWeight: "500" }}>Hi, {name}</span>
-            <Link to="/upload" className="btn">Upload</Link>
-            <button onClick={logout} className="btn danger" style={{ marginLeft: 8 }}>
-              Logout
-            </button>
+            <Link to="/upload" className="header-btn header-btn-primary">
+              <span className="btn-icon">+</span> New
+            </Link>
+            <div className="header-user">
+              <span className="user-greeting">Howdy, {name}</span>
+              <div className="header-dropdown">
+                <button className="header-btn">Help</button>
+                <div className="dropdown-menu">
+                  <button onClick={logout} className="dropdown-item">Logout</button>
+                </div>
+              </div>
+            </div>
           </>
         ) : (
           <>
-            <Link to="/login" className="btn">Login</Link>
-            <Link to="/signup" className="btn" style={{ marginLeft: 8 }}>
-              Sign up
-            </Link>
+            <Link to="/login" className="header-btn">Login</Link>
+            <Link to="/signup" className="header-btn header-btn-primary">Sign up</Link>
           </>
         )}
       </div>
-    </nav>
+    </header>
   );
 }
