@@ -13,10 +13,10 @@ export default function Login() {
     try {
       const res = await login(form);
       localStorage.setItem('token', res.data.token);
-      localStorage.setItem('name', res.data.user.name);
+      localStorage.setItem('name', res.data.user.name || 'User');
       nav('/files');
     } catch (error) {
-      setErr(error?.response?.data?.message || error.message);
+      setErr(error?.response?.data?.message || error.message || 'Login failed');
     }
   };
 
