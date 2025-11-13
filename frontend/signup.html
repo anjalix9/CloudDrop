@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <link href="./auth.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="card">
+    <h1 class="title">SIGN UP</h1>
+    <form id="signupForm">
+      <div class="input-group">
+        <i class="fa-solid fa-user"></i>
+        <input id="name" type="text" placeholder="Username" required />
+      </div>
+      <div class="input-group">
+        <i class="fa-solid fa-envelope"></i>
+        <input id="email" type="email" placeholder="Email" required />
+      </div>
+      <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input id="password" type="password" placeholder="Create Password" required />
+      </div>
+      <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input id="confirm" type="password" placeholder="Retype Password" required />
+      </div>
+      <button id="signupBtn" type="button" class="btn btn-primary">SIGN UP</button>
+    </form>
+    <p class="link-text">Already have an account? <a href="#" id="toLogin">Login now</a></p>
+  </div>
+  <script>
+    document.getElementById('toLogin').addEventListener('click', function (e) {
+      e.preventDefault();
+      window.location.href = 'login.html';
+    });
+
+    const API_BASE = 'http://localhost:5000/api';
+    const signupBtn = document.getElementById('signupBtn');
+    signupBtn.addEventListener('click', async () => {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirm').value;
+      if (password !== confirm) {
+        alert('Passwords do not match');
+        return;
+      }
+      signupBtn.disabled = true;
+      signupBtn.textContent = 'Signing up...';
+      try {
+        const res = await fetch(`${API_BASE}/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password })
+        });
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({ message: 'Signup failed' }));
+          throw new Error(data.message || 'Signup failed');
+        }
+        const data = await res.json();
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('name', (data.user && data.user.name) || name);
+        window.location.href = '/files';
+      } catch (err) {
+        alert(err.message || 'Signup failed');
+      } finally {
+        signupBtn.disabled = false;
+        signupBtn.textContent = 'SIGN UP';
+      }
+    });
+  </script>
+</body>
+</html>

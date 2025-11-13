@@ -28,17 +28,9 @@ export default function Navbar() {
       <div className="header-right">
         {token ? (
           <>
-            <Link to="/upload" className="header-btn header-btn-primary">
-              <span className="btn-icon">+</span> New
-            </Link>
             <div className="header-user">
               <span className="user-greeting">Howdy, {name}</span>
-              <div className="header-dropdown">
-                <button className="header-btn">Help</button>
-                <div className="dropdown-menu">
-                  <button onClick={logout} className="dropdown-item">Logout</button>
-                </div>
-              </div>
+              <button onClick={logout} className="header-btn header-btn-primary">Logout</button>
             </div>
           </>
         ) : (

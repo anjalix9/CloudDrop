@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <link href="./auth.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="card">
+    <h1 class="title">LOGIN</h1>
+    <form id="loginForm">
+      <div class="input-group">
+        <i class="fa-solid fa-envelope"></i>
+        <input id="email" type="email" placeholder="Email" required />
+      </div>
+      <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input id="password" type="password" placeholder="Password" required />
+      </div>
+      <div class="options">
+        <label class="checkbox"><input id="remember" type="checkbox" /> Remember me</label>
+      </div>
+      <button id="loginBtn" type="button" class="btn btn-primary">LOGIN</button>
+      <div class="divider">Or login with</div>
+      <button type="button" class="btn btn-google"><i class="fab fa-google"></i> Google</button>
+    </form>
+    <p class="link-text">Not a member? <a href="#" id="toSignup">Sign up now</a></p>
+  </div>
+  <script>
+    document.getElementById('toSignup').addEventListener('click', function (e) {
+      e.preventDefault();
+      window.location.href = 'signup.html';
+    });
+
+    const API_BASE = 'http://localhost:5000/api';
+    const loginBtn = document.getElementById('loginBtn');
+    loginBtn.addEventListener('click', async () => {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const remember = document.getElementById('remember').checked;
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Logging in...';
+      try {
+        const res = await fetch(`${API_BASE}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({ message: 'Login failed' }));
+          throw new Error(data.message || 'Login failed');
+        }
+        const data = await res.json();
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('name', (data.user && data.user.name) || 'User');
+        if (remember) localStorage.setItem('rememberMe', 'true');
+        window.location.href = '/files';
+      } catch (err) {
+        alert(err.message || 'Login failed');
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'LOGIN';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function UploadPage(){
   const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState('No file chosen');
   const [msg, setMsg] = useState('');
   const [loading, setLoading] = useState(false);
   const nav = useNavigate();
@@ -34,15 +35,31 @@ export default function UploadPage(){
   };
 
   return (
-    <div className="card">
-      <h2>Upload file</h2>
-      <form onSubmit={submit}>
-        <input type="file" onChange={e => setFile(e.target.files[0])} disabled={loading} />
-        <button className="btn" disabled={loading || !file}>
-          {loading ? 'Uploading...' : 'Upload'}
-        </button>
-      </form>
-      {msg && <div className={msg.includes('successfully') ? 'success' : 'error'} style={{marginTop:10}}>{msg}</div>}
+    <div className="upload-page">
+      <div className="upload-card">
+        <h1 className="upload-title">Upload File</h1>
+        <form onSubmit={submit}>
+          <input
+            id="fileInput"
+            className="file-input"
+            type="file"
+            onChange={e => {
+              const f = e.target.files[0];
+              setFile(f || null);
+              setFileName(f ? f.name : 'No file chosen');
+            }}
+            disabled={loading}
+          />
+          <div className="file-input-row">
+            <label htmlFor="fileInput" className="file-input-label">Choose File</label>
+            <span className="file-name">{fileName}</span>
+          </div>
+          <button className="upload-btn" disabled={loading || !file}>
+            {loading ? 'Uploading...' : 'Upload'}
+          </button>
+        </form>
+        {msg && <div className={msg.toLowerCase().includes('success') ? 'success' : 'error'} style={{marginTop:10}}>{msg}</div>}
+      </div>
     </div>
   );
 }

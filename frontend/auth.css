@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #ff0080, #6a00f4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  width: 100%;
+  max-width: 380px;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.title {
+  margin: 0 0 20px;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  background: #fff;
+  margin-bottom: 14px;
+}
+
+.input-group i {
+  color: #6a6a6a;
+  font-size: 16px;
+}
+
+.input-group input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+  color: #1a1a1a;
+}
+
+.input-group:focus-within {
+  border-color: #ff007f;
+  box-shadow: 0 0 0 3px rgba(255, 0, 127, 0.15);
+}
+
+.options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 0 18px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #333;
+  font-size: 14px;
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-primary {
+  background: #ff007f;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #d6006c;
+}
+
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #ffffff;
+  color: #333;
+  border: 1px solid #dddddd;
+}
+
+.divider {
+  text-align: center;
+  color: #666;
+  font-size: 13px;
+  margin: 16px 0;
+}
+
+.link-text {
+  text-align: center;
+  font-size: 14px;
+  color: #444;
+  margin-top: 18px;
+}
+
+.link-text a {
+  color: #ff007f;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.link-text a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 420px) {
+  .card {
+    padding: 24px;
+  }
+}
